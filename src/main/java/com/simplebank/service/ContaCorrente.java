@@ -1,26 +1,28 @@
 package com.simplebank.service;
 
-public class ContaCorrente {
-    private double saldo;
+import java.math.BigDecimal;
 
-    public ContaCorrente(double saldoInicial) {
+public class ContaCorrente {
+    private BigDecimal saldo;
+
+    public ContaCorrente(BigDecimal saldoInicial) {
         saldo = saldoInicial;
     }
 
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void transfere(ContaCorrente contaCorrente, double valorATransferir) {
+    public void transfere(ContaCorrente contaCorrente, BigDecimal valorATransferir) {
         saque(valorATransferir);
         contaCorrente.deposita(valorATransferir);
     }
 
-    private void deposita(double valorADepositar) {
-        saldo += valorADepositar;
+    private void deposita(BigDecimal valorADepositar) {
+        saldo = saldo.add(valorADepositar);
     }
 
-    private void saque(double valorASacar) {
-        saldo -= valorASacar;
+    private void saque(BigDecimal valorASacar) {
+        saldo = saldo.subtract(valorASacar);
     }
 }
