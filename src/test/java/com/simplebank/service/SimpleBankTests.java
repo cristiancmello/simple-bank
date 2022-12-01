@@ -27,7 +27,7 @@ public class SimpleBankTests {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
-
+        // Tempos um problema: current service ainda nao fornece API. E agora? SOLUCAO: Mockar com Mockito
 
 
 //        assertThat(contaCorrenteClient.getSaldo()).isEqualTo(BigDecimal.valueOf(820.0));
