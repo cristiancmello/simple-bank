@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -32,23 +33,28 @@ public class SimpleBankTests {
     void dadaContaCorrenteAComSaldo_eOutraContaCorrenteBSaldo_quandoAtransferirValorB_entaoContasSaldosComputados() {
         var contaOrigem = new ContaCorrente();
         var contaDestino = new ContaCorrente();
+        var valorATransferir = BigDecimal.valueOf(380.0);
 
         var contaCorrenteTransferRequest = new HttpEntity<>(List.of(
-            Map.of("valor", BigDecimal.valueOf(380.0)),
+            Map.of("valor", valorATransferir),
             Map.of("id_conta_origem", contaOrigem.getId()),
             Map.of("id_conta_destino", contaDestino.getId())
         ), new HttpHeaders());
 
         var currentAccountTransferResponse = new CurrentAccountTransferResponse();
 
+        ReflectionTestUtils.setField(currentAccountTransferResponse, "saldoOrigem", BigDecimal.valueOf(820.0));
+        ReflectionTestUtils.setField(currentAccountTransferResponse, "saldoDestino", BigDecimal.valueOf(680.0));
+
         when(contaCorrenteClient
             .postForEntity("/accounts/transfer", contaCorrenteTransferRequest, CurrentAccountTransferResponse.class)
         ).thenReturn(new ResponseEntity<>(currentAccountTransferResponse, HttpStatus.OK));
 
         var contaCorrenteTransferResponse = currentAccountServiceClient
-            .transfer(contaOrigem, contaDestino, BigDecimal.valueOf(380.0));
+            .transfer(contaOrigem, contaDestino, valorATransferir);
 
         // Melhorou! Agora podemos lidar com a transferencia implementada fora do teste
+        // Dá pra melhorar...
 
         assertThat(contaCorrenteTransferResponse.getSaldoContaOrigem()).isEqualTo(BigDecimal.valueOf(820.0));
         assertThat(contaCorrenteTransferResponse.getSaldoContaDestino()).isEqualTo(BigDecimal.valueOf(680.0));

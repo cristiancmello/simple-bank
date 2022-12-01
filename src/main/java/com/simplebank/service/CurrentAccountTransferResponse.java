@@ -7,10 +7,7 @@ public class CurrentAccountTransferResponse {
 
     private BigDecimal saldoDestino;
 
-    public CurrentAccountTransferResponse() {
-        this.saldoOrigem = BigDecimal.valueOf(820.0);
-        this.saldoDestino = BigDecimal.valueOf(680.0);
-    }
+    public CurrentAccountTransferResponse() {}
 
     public BigDecimal getSaldoContaOrigem() {
         return saldoOrigem;
