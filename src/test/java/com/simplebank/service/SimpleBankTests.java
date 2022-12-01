@@ -55,6 +55,13 @@ public class SimpleBankTests {
 
         // Melhorou! Agora podemos lidar com a transferencia implementada fora do teste
         // Dá pra melhorar...
+        // O teste atual acabou tendo outro propósito: testar funcionalidade de transfer do CurrentAccountServiceClient
+        // Testar um cliente http é simples: dado as infos de entrada, a rota e verbo HTTP a executar, quando
+        // faz a chamada, intercepte usando o mock para que a infra verdadeira nao seja acionada. Minimamente se espera
+        // um retorno compatível com as regras de negócio.
+
+        // Melhoria futura: uso do Cucumber para montar testes integrados mais pesados, que testem a infra in natura
+        // Infelizmente foge ao escopo no momento.
 
         assertThat(contaCorrenteTransferResponse.getSaldoContaOrigem()).isEqualTo(BigDecimal.valueOf(820.0));
         assertThat(contaCorrenteTransferResponse.getSaldoContaDestino()).isEqualTo(BigDecimal.valueOf(680.0));
